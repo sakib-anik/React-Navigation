@@ -19,8 +19,9 @@ const UserList = ():React.JSX.Element => {
   const removeData = async ()=>{
     await AsyncStorage.removeItem('name');
   }
-  let userList = useSelector((state)=>state.reducer);
-  userList = userList[0].users;
+  let userList = useSelector((state)=>state.userReducer);
+  userList = userList.length > 0 && userList[0].users;
+  
   
   return(
     <View>
