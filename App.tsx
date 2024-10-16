@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductWrapper from './components/ProductWrapper';
 import UserList from './components/UserList';
-
+import 'react-native-gesture-handler';
 let Stack = createNativeStackNavigator();
 const App = ():React.JSX.Element => {
   const [user,setUser] = useState('');
