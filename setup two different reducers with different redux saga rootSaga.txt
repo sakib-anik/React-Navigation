@@ -1,0 +1,205 @@
+How to setup two different reducers(userList, productsList) with redux saga.
+ChatGPT said:
+ChatGPT
+To set up two different reducers (userList and productsList) with Redux-Saga, you can follow these steps:
+
+Create Actions for both userList and productsList.
+Set Up Separate Reducers for userList and productsList.
+Create Separate Sagas for fetching user data and product data.
+Combine Reducers into a root reducer.
+Combine Sagas into a root saga.
+Configure the Store to use Redux-Saga middleware.
+Step 1: Create Actions
+In constants.js, define action types for both userList and productsList:
+
+javascript
+Copy code
+// constants.js
+export const USER_LIST = 'USER_LIST';
+export const SET_USER_DATA = 'SET_USER_DATA';
+export const PRODUCTS_LIST = 'PRODUCTS_LIST';
+export const SET_PRODUCTS_DATA = 'SET_PRODUCTS_DATA';
+In actions.js, create action creators for dispatching actions:
+
+javascript
+Copy code
+// actions.js
+export const getUserList = () => {
+    return {
+        type: USER_LIST
+    };
+};
+
+export const getProductsList = () => {
+    return {
+        type: PRODUCTS_LIST
+    };
+};
+Step 2: Create Separate Reducers
+Create a userReducer to handle user-related data and a productsReducer to handle product-related data.
+
+javascript
+Copy code
+// userReducer.js
+import { SET_USER_DATA } from './constants';
+
+const initialState = [];
+
+export const userReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case SET_USER_DATA:
+            return action.data;  // Replace state with fetched user data
+        default:
+            return state;
+    }
+};
+javascript
+Copy code
+// productsReducer.js
+import { SET_PRODUCTS_DATA } from './constants';
+
+const initialState = [];
+
+export const productsReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case SET_PRODUCTS_DATA:
+            return action.data;  // Replace state with fetched products data
+        default:
+            return state;
+    }
+};
+Step 3: Create Separate Sagas
+Define two separate sagas: one for fetching the user list (userSaga) and another for fetching the products list (productsSaga).
+
+javascript
+Copy code
+// userSaga.js
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { USER_LIST, SET_USER_DATA } from './constants';
+
+function* fetchUserList() {
+    const url = 'https://dummyjson.com/users';
+    try {
+        const response = yield call(fetch, url);
+        const data = yield response.json();
+        yield put({ type: SET_USER_DATA, data });
+    } catch (error) {
+        console.error("Error fetching user list:", error);
+    }
+}
+
+export function* userSaga() {
+    yield takeEvery(USER_LIST, fetchUserList);
+}
+javascript
+Copy code
+// productsSaga.js
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { PRODUCTS_LIST, SET_PRODUCTS_DATA } from './constants';
+
+function* fetchProductsList() {
+    const url = 'https://dummyjson.com/products';
+    try {
+        const response = yield call(fetch, url);
+        const data = yield response.json();
+        yield put({ type: SET_PRODUCTS_DATA, data });
+    } catch (error) {
+        console.error("Error fetching products list:", error);
+    }
+}
+
+export function* productsSaga() {
+    yield takeEvery(PRODUCTS_LIST, fetchProductsList);
+}
+Step 4: Combine Reducers
+Use combineReducers to combine both userReducer and productsReducer.
+
+javascript
+Copy code
+// rootReducer.js
+import { combineReducers } from 'redux';
+import { userReducer } from './userReducer';
+import { productsReducer } from './productsReducer';
+
+const rootReducer = combineReducers({
+    userData: userReducer,       // State slice for user data
+    productsData: productsReducer // State slice for products data
+});
+
+export default rootReducer;
+Step 5: Combine Sagas
+In the root saga, combine userSaga and productsSaga.
+
+javascript
+Copy code
+// rootSaga.js
+import { all } from 'redux-saga/effects';
+import { userSaga } from './userSaga';
+import { productsSaga } from './productsSaga';
+
+export default function* rootSaga() {
+    yield all([
+        userSaga(),
+        productsSaga()
+    ]);
+}
+Step 6: Configure Store
+Finally, set up the Redux store to use the combined reducer and the combined saga middleware.
+
+javascript
+Copy code
+// store.js
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer from './rootReducer';  // The combined reducer
+import rootSaga from './rootSaga';        // The combined saga
+
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(
+    rootReducer,
+    applyMiddleware(sagaMiddleware) // Apply the saga middleware
+);
+
+sagaMiddleware.run(rootSaga); // Run the root saga
+
+export default store;
+Step 7: Access the State Using useSelector
+In your component, you can use useSelector to access both userList and productsList data separately:
+
+javascript
+Copy code
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserList, getProductsList } from './actions';
+
+const MyComponent = () => {
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(getUserList());       // Fetch user list
+        dispatch(getProductsList());   // Fetch products list
+    }, [dispatch]);
+    
+    const users = useSelector((state) => state.userData);        // Access user data
+    const products = useSelector((state) => state.productsData); // Access product data
+    
+    return (
+        <div>
+            <h1>Users</h1>
+            <pre>{JSON.stringify(users, null, 2)}</pre>
+            <h1>Products</h1>
+            <pre>{JSON.stringify(products, null, 2)}</pre>
+        </div>
+    );
+};
+
+export default MyComponent;
+Summary
+Actions: Created for both USER_LIST and PRODUCTS_LIST.
+Reducers: Separate userReducer and productsReducer to handle user and product data.
+Sagas: Created userSaga and productsSaga for fetching user and product data, respectively.
+Root Reducer & Root Saga: Combine the reducers and sagas.
+Store: Configure the store to use the combined reducer and saga middleware.
+useSelector: Access the separate slices of state in components.
+This setup allows you to manage both user data and product data independently while using Redux-Saga for asynchronous operations.
