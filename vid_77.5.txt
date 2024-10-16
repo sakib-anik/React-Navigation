@@ -1,0 +1,46 @@
+For the skipped part in video between 77 and 78, you can follow the below steps, after that you can continue with 78 number video in playlist.
+
+1. In constants file -
+first add 
+- export const USER_LIST = 'user_list';
+
+2. In saga file - 
+first import 
+ - import {takeEvery} from 'redux-saga/effects';
+ - import {USER_LIST} from './constants';
+
+Then create function like below:
+function* userList() {
+  console.warn('Saga Function Called');
+}
+function* SagaData() {
+  yield takeEvery(USER_LIST, userList);
+}
+
+3. In action file -
+first import 
+- import USER_LIST from constants;
+
+Then create a function with export like below
+export function getUserList() {
+  return {
+    type: USER_LIST,
+  };
+}
+
+4. In UserList file -
+first import 
+
+import {useDispatch} from 'react-redux';
+import {getUserList} from '../redux/action';
+
+Then use hooks for calling function like below:
+
+const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserList());
+  });
+
+After that, you when you navigate to UserList page, you can check the function created in Saga file is called by  console.warn('Saga Function Called');
+
+@Thanks Anil Sidhu Again 🙂

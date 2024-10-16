@@ -1,0 +1,91 @@
+>npm i redux
+>npm i react-redux
+>npm i @reduxjs/toolkit
+
+components>
+Header.tsx
+Product.tsx
+App.tsx
+
+components/redux>
+reducer.js
+rootReducer.js
+constants.js
+store.js
+action.js
+
+constants.js
+export const ADD_TO_CART='add_to_cart';
+
+action.js
+import {ADD_TO_CART} from './constants';
+
+export const addToCart = (item)=>{
+	return{
+		type:ADD_TO_CART,
+		data:item
+	}
+}
+
+Product.tsx
+import {useDispatch} from 'react-redux';
+import {addToCart} from './redux/action';
+const Product = ({item})=>{
+	const dispatch = useDispatch();
+	const handleAddToCart = (item)=>{
+		dispatch(addToCart(item));
+	}
+	return(
+		<Button title="Press" onPress={()=>handleAddToCart(item)} />
+	)
+}
+
+reducer.js
+import {ADD_TO_CART} from './constants';
+const initialState = [];
+export const reducer = (state=initialState,action)=>{
+	switch(action.type){
+		case ADD_TO_CART:
+			return [
+				...state,
+				action.data
+			];
+		default:
+			return state;
+	}
+}
+
+rootReducer.js
+import {combineReducers} from 'redux';
+import {reducer} from './reducer';
+export default combineReducers({
+	reducer
+});
+
+store.js
+import {configureStore} from 'react-redux';
+import reducer from './rootReducer';
+const store = configureStore({
+	reducer: reducer;
+});
+export default store;
+
+index.js
+import {Provider} from 'react-redux';
+import store from './components/redux/store';
+import App from './App';
+import {AppRegistry} from 'react-native';
+import {name as appname} from './app.json';
+const AppRedux = ()=>(<Provider store={store}><App /></Provider>)
+AppRegistry.registerComponent(appName,()=>AppRedux);
+
+Header.tsx
+import {useSelector} from 'react-redux';
+const Header = ()=>{
+	const cartData = useSelector(state=>state.reducer);
+	return(
+		<Text>{cartData.length}</Text>
+	);
+}
+export default Header;
+
