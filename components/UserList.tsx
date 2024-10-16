@@ -24,7 +24,7 @@ const UserList = ():React.JSX.Element => {
   
   return(
     <View>
-      {userList.length ?
+      {userList && userList.length ?
         userList.map(user=>(<Text key={user.id} style={{ fontSize:20}}>{user.firstName}</Text>))
         : null
       }
