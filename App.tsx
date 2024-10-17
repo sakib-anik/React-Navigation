@@ -14,7 +14,7 @@ const StackNav = ()=>{
   let Stack = createNativeStackNavigator();
   return(
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='Home' component={ProductWrapper} />
+        <Stack.Screen name='Products' component={ProductWrapper} />
         <Stack.Screen name='User' component={UserList} />
     </Stack.Navigator>
   )
@@ -24,7 +24,7 @@ const DrawerNav = ()=>{
   return(
     <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center' }}>
           <Drawer.Screen name="Home" component={StackNav} />
-          <Drawer.Screen name="User" component={UserScreen} />
+          <Drawer.Screen name="Users" component={UserList} />
           <Drawer.Screen name="Profile" component={ProfileScreen} />
     </Drawer.Navigator>
   );
@@ -75,7 +75,7 @@ const App = ():React.JSX.Element => {
 export const UserScreen = ()=>{
   return(
     <View>
-      <Text>Home Screen</Text>
+      <Text style={{ color: 'black' }}>User Screen</Text>
     </View>
   )
 }
@@ -83,7 +83,7 @@ export const UserScreen = ()=>{
 export const ProfileScreen = ()=>{
   return(
     <View>
-      <Text>Profile Screen</Text>
+      <Text style={{ color: 'black' }}>Profile Screen</Text>
     </View>
   )
 }

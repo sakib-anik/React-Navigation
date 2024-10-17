@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
         padding: 10
     },
     itemFont:{
-        fontSize:24
+        fontSize:24,
+        color:'black'
     }
 })
 
