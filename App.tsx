@@ -8,7 +8,27 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductWrapper from './components/ProductWrapper';
 import UserList from './components/UserList';
 import 'react-native-gesture-handler';
-let Stack = createNativeStackNavigator();
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+const StackNav = ()=>{
+  let Stack = createNativeStackNavigator();
+  return(
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Home' component={ProductWrapper} />
+        <Stack.Screen name='User' component={UserList} />
+    </Stack.Navigator>
+  )
+}
+const DrawerNav = ()=>{
+  const Drawer = createDrawerNavigator();
+  return(
+    <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center' }}>
+          <Drawer.Screen name="Home" component={StackNav} />
+          <Drawer.Screen name="User" component={UserScreen} />
+          <Drawer.Screen name="Profile" component={ProfileScreen} />
+    </Drawer.Navigator>
+  );
+}
 const App = ():React.JSX.Element => {
   const [user,setUser] = useState('');
   const setData = async ()=>{
@@ -42,17 +62,30 @@ const App = ():React.JSX.Element => {
       image: 'https://www.iconpacks.net/icons/2/free-mobile-phone-icon-2636-thumb.png'
     },
   ]
-
+  
   return(
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Home' component={ProductWrapper} />
-        <Stack.Screen name='User' component={UserList} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <DrawerNav />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   )
 }
 
+export const UserScreen = ()=>{
+  return(
+    <View>
+      <Text>Home Screen</Text>
+    </View>
+  )
+}
 
+export const ProfileScreen = ()=>{
+  return(
+    <View>
+      <Text>Profile Screen</Text>
+    </View>
+  )
+}
 
 export default App;
