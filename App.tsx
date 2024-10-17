@@ -3,18 +3,20 @@ import {Text,View,Button, TextInput, TouchableHighlight, StyleSheet, Image, Scro
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './components/Header';
 import Product from './components/Product';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useNavigation,DrawerActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductWrapper from './components/ProductWrapper';
 import UserList from './components/UserList';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Entypo';
 const StackNav = ()=>{
   let Stack = createNativeStackNavigator();
+  const navigation = useNavigation();
   return(
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='Products' component={ProductWrapper} />
+    <Stack.Navigator screenOptions={{ headerShown: true,headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center', headerLeft: ()=><Icon name="menu" color="#fff" size={30} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())} /> }}>
+        <Stack.Screen options={{ headerTitle:'Home' }} name='Products' component={ProductWrapper} />
         <Stack.Screen name='User' component={UserList} />
     </Stack.Navigator>
   )
@@ -22,7 +24,7 @@ const StackNav = ()=>{
 const DrawerNav = ()=>{
   const Drawer = createDrawerNavigator();
   return(
-    <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center' }}>
+    <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center',headerShown:false }}>
           <Drawer.Screen name="Home" component={StackNav} />
           <Drawer.Screen name="Users" component={UserList} />
           <Drawer.Screen name="Profile" component={ProfileScreen} />
