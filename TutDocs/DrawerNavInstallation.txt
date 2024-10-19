@@ -1,0 +1,72 @@
+The error you're encountering (TypeError: global.__reanimatedWorkletInit is not a function) is related to an issue with react-native-reanimated and how it's interacting with react-navigation's Drawer Navigator and Hermes.
+
+Here are steps to resolve this issue:
+
+1. Ensure Proper Installation of react-native-reanimated
+Run the following command to ensure you have the latest version:
+
+bash
+Copy code
+npm install react-native-reanimated@latest
+Then, add this configuration to your babel.config.js:
+
+javascript
+Copy code
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    'react-native-reanimated/plugin',  // Add this line for Reanimated
+  ],
+};
+2. Ensure Correct Installation of Required Dependencies
+If you haven't already, install these required dependencies for Drawer Navigation and Gesture Handling:
+
+bash
+Copy code
+npm install @react-navigation/drawer
+npm install react-native-gesture-handler react-native-reanimated react-native-safe-area-context
+npm install react-native-screens react-native-safe-area-context
+Then, link the native dependencies and reset Metro’s cache:
+
+bash
+Copy code
+npx react-native link
+npx react-native start --reset-cache
+3. Wrap Your App with GestureHandlerRootView
+Make sure your app is properly wrapped with GestureHandlerRootView from react-native-gesture-handler. This is necessary for Drawer Navigation to work properly.
+
+Modify your App.js:
+
+javascript
+Copy code
+import 'react-native-gesture-handler';
+import React from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import ProductWrapper from './components/ProductWrapper';
+
+const Drawer = createDrawerNavigator();
+
+export default function App() {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={ProductWrapper} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
+  );
+}
+4. Rebuild the Project
+After making these changes, clear the build and run the project again:
+
+bash
+Copy code
+npx react-native-clean-project
+npx react-native run-android
+5. Double Check Hermes Configuration (Optional)
+Sometimes, compatibility with Hermes can cause issues with react-native-reanimated. If the issue persists, you can try disabling Hermes in your android/app/build.gradle by setting enableHermes: false, but that should be your last resort.
+
+Following these steps should resolve the issue related to react-native-reanimated and Drawer Navigation. Let me know if you encounter further problems!
