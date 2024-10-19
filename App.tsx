@@ -11,23 +11,26 @@ import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
+import DrawerContent from './DrawerContent';
 const StackNav = ()=>{
   let Stack = createNativeStackNavigator();
   const navigation = useNavigation();
   return(
-    <Stack.Navigator screenOptions={{ headerShown: true,headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center', headerLeft: ()=><Icon name="menu" color="#fff" size={30} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())} /> }}>
-        <Stack.Screen options={{ headerTitle:'Home' }} name='Products' component={ProductWrapper} />
+    <Stack.Navigator screenOptions={{ headerShown: true,headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center',  }}>
+        <Stack.Screen options={{ headerTitle:'Homes',headerLeft: ()=><Icon name="menu" color="#fff" size={30} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())} /> }} name='Products' component={ProductWrapper} />
         <Stack.Screen name='User' component={UserList} />
+        <Stack.Screen name="Librarys" component={LibraryScreen} />
     </Stack.Navigator>
   )
 }
 const DrawerNav = ()=>{
   const Drawer = createDrawerNavigator();
   return(
-    <Drawer.Navigator initialRouteName="Home" screenOptions={{ headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center',headerShown:false }}>
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} initialRouteName="Home" screenOptions={{ headerStyle:{backgroundColor:'#0163d2'},headerTintColor:'#fff', headerTitleAlign:'center',headerShown:false }}>
           <Drawer.Screen name="Home" component={StackNav} />
           <Drawer.Screen name="Users" component={UserList} />
           <Drawer.Screen name="Profile" component={ProfileScreen} />
+          <Drawer.Screen name="Library" component={LibraryScreen} />
     </Drawer.Navigator>
   );
 }
@@ -86,6 +89,13 @@ export const ProfileScreen = ()=>{
   return(
     <View>
       <Text style={{ color: 'black' }}>Profile Screen</Text>
+    </View>
+  )
+}
+export const LibraryScreen = ()=>{
+  return(
+    <View>
+      <Text style={{ color: 'black' }}>Library Screen</Text>
     </View>
   )
 }
