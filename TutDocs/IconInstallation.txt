@@ -1,0 +1,8 @@
+Icons
+>npm install react-native-vector-icons
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+<MaterialCommunityIcons
+              name={focused ? 'account-multiple' : 'account-multiple-outline'}
+              size={28}
+              color={'white'}
+              />

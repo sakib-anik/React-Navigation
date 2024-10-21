@@ -1,0 +1,6 @@
+Toast Installation React Native
+>npm i react-native-toast-message
+
+App.tsx
+import Toast from 'react-native-toast-message';
+<Toast />
