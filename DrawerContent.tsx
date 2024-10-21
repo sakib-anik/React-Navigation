@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const DrawerList = [
-  {icon: 'home-outline', label: 'Home', navigateTo: 'Products'},
+  {icon: 'home-outline', label: 'Home', navigateTo: 'HomeS'},
   {icon: 'account-multiple', label: 'Profile', navigateTo: 'Profile'},
   {icon: 'account-group', label: 'User', navigateTo: 'User'},
   {icon: 'bookshelf', label: 'Libraryian', navigateTo: 'Librarys'},
