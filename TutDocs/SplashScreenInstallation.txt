@@ -1,0 +1,32 @@
+SplashScreen Installation React-Native
+>npm install react-native-splash-screen
+App.tsx
+import SplashScreen from 'react-native-splash-screen';
+useEffect(() => {
+  getData();
+  setTimeout(() => {
+    SplashScreen.hide(); // This will hide the splash screen
+  }, 900);
+}, [isLoggedIn]);
+
+1. Ensure Your Project is Using AndroidX
+First, make sure your project is set to use AndroidX:
+
+Open android/gradle.properties and add the following lines if they are not already present:
+
+android.useAndroidX=true
+android.enableJetifier=true
+
+This ensures that all dependencies are migrated to AndroidX.
+
+3. Clean and Rebuild the Project
+Once you've made the changes, clean and rebuild your project to ensure that there are no leftover cached files causing the issue.
+
+Run the following commands from your project root directory:
+
+>cd android
+>gradlew clean
+
+Then, try running the app again with:
+
+>npx react-native run-android
