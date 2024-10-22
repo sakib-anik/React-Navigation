@@ -29,14 +29,14 @@ const StackNav = ()=>{
   return(
     <Stack.Navigator screenOptions={{ 
       statusBarColor: '#0163d2',
-      headerShown: false,
+      headerShown: true,
       headerStyle:{
         backgroundColor: '#0163d2'
       },
       headerTintColor: '#fff',
       headerTitleAlign: 'center'
      }}>
-      <Stack.Screen name='HomeS' component={HomeScreen} />
+      <Stack.Screen options={{ headerTitle:'Homes',headerLeft: ()=><Icon name="menu" color="#fff" size={30} onPress={()=>navigation.dispatch(DrawerActions.openDrawer())} /> }} name='HomeS' component={HomeScreen} />
       <Stack.Screen name='Profile' component={ProfileScreen} options={{ headerShown: true }} />
       <Stack.Screen name='User' component={UserScreen} options={{ headerShown: true }} />
       <Stack.Screen name='UpdateProfile' component={UpdateProfile} options={{ headerShown: false }} />
@@ -49,7 +49,7 @@ const StackNav = ()=>{
 const DrawerNav = ()=>{
   const Drawer = createDrawerNavigator();
   return(
-    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{ headerShown: true, headerTitle: '' }}>
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{ headerShown: false, headerTitle: '' }}>
       <Drawer.Screen name="HomeD" component={TabNav} />
     </Drawer.Navigator>
   )
