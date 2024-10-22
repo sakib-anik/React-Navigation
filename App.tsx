@@ -49,7 +49,7 @@ const StackNav = ()=>{
 const DrawerNav = ()=>{
   const Drawer = createDrawerNavigator();
   return(
-    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{ headerShown: false }}>
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} screenOptions={{ headerShown: true, headerTitle: '' }}>
       <Drawer.Screen name="HomeD" component={TabNav} />
     </Drawer.Navigator>
   )
