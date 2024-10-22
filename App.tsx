@@ -3,7 +3,7 @@ import Toast from 'react-native-toast-message';
 import SplashScreen from 'react-native-splash-screen';
 import HomeScreen from './components/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation,DrawerActions } from '@react-navigation/native';
 import { Text } from 'react-native';
 import SettingsScreen from './components/SettingsScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
