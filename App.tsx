@@ -21,7 +21,8 @@ import RegisterPage from './components/RegisterPage';
 import AdminScreen from './components/AdminScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
 const StackNav = ()=>{
   const Stack = createNativeStackNavigator();
   const navigation = useNavigation();
