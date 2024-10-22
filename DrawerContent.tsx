@@ -39,6 +39,7 @@ const DrawerItems = (props) => {
     });
   };
 const DrawerContent = (props):React.JSX.Element => {
+  const navigation = useNavigation();
     return(
         <View style={{ flex:1 }}>
             <DrawerContentScrollView {...props}>
@@ -66,7 +67,7 @@ const DrawerContent = (props):React.JSX.Element => {
         </View>
       </DrawerContentScrollView>
       <View style={styles.bottomDrawerSection}>
-        <DrawerItem
+        <DrawerItem style={{ backgroundColor: 'red' }} onPress={()=>navigation.navigate('Login')}
           icon={({color, size}) => (
             <Icon name="exit-to-app" color={color} size={size} />
           )}
